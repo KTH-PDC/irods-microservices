@@ -1,0 +1,4 @@
+templateRule
+{
+	msitemplate(*inParam, *outParam);
+}

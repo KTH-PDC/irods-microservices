@@ -37,6 +37,7 @@ include_directories(${IRODS_EXTERNALS_FULLPATH_CLANG}/include/c++/v1)
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,defs" )
 
 include(irods-snic-microservices.cmake)
+include(api_plugins.cmake)
 
 set(CPACK_PACKAGE_FILE_NAME "irods-snic-microservices${IRODS_PACKAGE_FILE_NAME_SUFFIX}")
 set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)

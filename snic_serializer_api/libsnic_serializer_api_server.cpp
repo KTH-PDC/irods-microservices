@@ -28,6 +28,27 @@
 static irods::error serialize_openedDataObjInp_ptr(boost::any param,
 						   irods::re_serialization::serialized_parameter_t &out)
 {
+    try {
+        openedDataObjInp_t *ptr = boost::any_cast<openedDataObjInp_t*>(param);
+
+	// for a valid ptr, we serialize all but the keyValPair
+        if (ptr)
+	{
+            out["l1descInx"] = boost::lexical_cast<std::string>(ptr->l1descInx);
+            out["len"] = boost::lexical_cast<std::string>(ptr->len);
+	    out["whence"] = boost::lexical_cast<std::string>(ptr->whence);
+	    out["oprType"] = boost::lexical_cast<std::string>(ptr->oprType);
+	    out["offset"] = boost::lexical_cast<std::string>(ptr->offset);
+	    out["bytesWritten"] = boost::lexical_cast<std::string>(ptr->bytesWritten);
+        }
+
+        else
+            out["null_value"] = "null_value";
+    }
+    catch (std::exception &e) {
+        return ERROR(INVALID_ANY_CAST, "failed to cast openedDataObjInp_t pointer");
+    }
+
     return (SUCCESS());
 }
 
@@ -35,6 +56,20 @@ static irods::error serialize_openedDataObjInp_ptr(boost::any param,
 static irods::error serialize_openedDataObjInp_ptr_ptr(boost::any param,
 						       irods::re_serialization::serialized_parameter_t &out) 
 {
+    try {
+	openedDataObjInp_t **ptr = boost::any_cast<openedDataObjInp_t**>(param);
+
+	// if we can, dereference and serialize
+	if (ptr && *ptr)
+	    serialize_openedDataObjInp_ptr(*ptr, out);
+
+	else
+	    out["null_value"] = "null_value";
+    }
+    catch (std::exception &e) {
+	return (ERROR(INVALID_ANY_CAST, "failed to cast openedDataObjInp_t handle"));
+    }
+
     return (SUCCESS());
 }
 

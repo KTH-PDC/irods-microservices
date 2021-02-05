@@ -4,9 +4,6 @@
 // std C++ headers
 #include <string>
 
-// boost headers
-#include "boost/lexical_cast.hpp"
-
 // iRODS headers
 #include "apiHandler.hpp"
 #include "rodsPackInstruct.h"
@@ -34,12 +31,12 @@ static irods::error serialize_openedDataObjInp_ptr(boost::any param,
 	// for a valid ptr, we serialize all but the keyValPair
         if (ptr)
 	{
-            out["l1descInx"] = boost::lexical_cast<std::string>(ptr->l1descInx);
-            out["len"] = boost::lexical_cast<std::string>(ptr->len);
-	    out["whence"] = boost::lexical_cast<std::string>(ptr->whence);
-	    out["oprType"] = boost::lexical_cast<std::string>(ptr->oprType);
-	    out["offset"] = boost::lexical_cast<std::string>(ptr->offset);
-	    out["bytesWritten"] = boost::lexical_cast<std::string>(ptr->bytesWritten);
+            out["l1descInx"] = std::to_string(ptr->l1descInx);
+            out["len"] = std::to_string(ptr->len);
+	    out["whence"] = std::to_string(ptr->whence);
+	    out["oprType"] = std::to_string(ptr->oprType);
+	    out["offset"] = std::to_string(ptr->offset);
+	    out["bytesWritten"] = std::to_string(ptr->bytesWritten);
         }
 
         else

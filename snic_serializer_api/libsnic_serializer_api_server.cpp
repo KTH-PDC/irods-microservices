@@ -9,6 +9,7 @@
 
 // iRODS headers
 #include "apiHandler.hpp"
+#include "rodsPackInstruct.h"
 #include "irods_server_api_call.hpp"
 #include "irods_re_serialization.hpp"
 
@@ -23,7 +24,7 @@
 #define SNIC_SERIALIZER_APN 87907817
 
 // packing info
-#define OpenedDataObjInp_PI "int _this; str _that[64];"
+#define openedDataObjInp_PI "int _this; str _that[64];"
 
 
 // serializer callback for a pointer
@@ -70,8 +71,18 @@ extern "C" {
 				     std::function<int(rsComm_t*,openedDataObjInp_t*,int*)>(rs_snic_serializer_dummy),
 				     "api_snic_serializer_dummy", 0, (funcPtr)call_openedDataObjInp_t_int};
 	
-	irods::api_entry *ptr = NULL;
-	return (ptr);
+	irods::api_entry *dummy_ptr = new irods::api_entry(dummy_api);
+
+	irods::re_serialization::add_operation(typeid(openedDataObjInp_t*), serialize_openedDataObjInp_ptr);
+	irods::re_serialization::add_operation(typeid(openedDataObjInp_t**), serialize_openedDataObjInp_ptr_ptr);
+
+	dummy_ptr->in_pack_key = "openedDataObjInp_PI";
+        dummy_ptr->in_pack_value = openedDataObjInp_PI;
+
+        dummy_ptr->out_pack_key = "INT_PI";
+        dummy_ptr->out_pack_value = INT_PI;
+
+	return (dummy_ptr);
     }
 
 }; // extern "C"

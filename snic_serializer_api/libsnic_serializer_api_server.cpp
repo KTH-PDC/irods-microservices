@@ -20,15 +20,18 @@
 // define API number (my phone number)
 #define SNIC_SERIALIZER_APN 87907817
 
+// take out an iRODS namespace
+namespace rs = irods::re_serialization;
+
 
 // serializer callback for a pointer
 static irods::error serialize_openedDataObjInp_ptr(boost::any param,
-						   irods::re_serialization::serialized_parameter_t &out)
+						   rs::serialized_parameter_t &out)
 {
     try {
         openedDataObjInp_t *ptr = boost::any_cast<openedDataObjInp_t*>(param);
 
-	// for a valid ptr, we serialize all but the keyValPair
+	// for a valid ptr, we serialize the immediate properties + keyValPair
         if (ptr)
 	{
             out["l1descInx"] = std::to_string(ptr->l1descInx);
@@ -37,6 +40,8 @@ static irods::error serialize_openedDataObjInp_ptr(boost::any param,
 	    out["oprType"] = std::to_string(ptr->oprType);
 	    out["offset"] = std::to_string(ptr->offset);
 	    out["bytesWritten"] = std::to_string(ptr->bytesWritten);
+
+	    rs::serialize_parameter(ptr->condInput, out);
         }
 
         else
@@ -51,7 +56,7 @@ static irods::error serialize_openedDataObjInp_ptr(boost::any param,
 
 // serializer callback for a handle
 static irods::error serialize_openedDataObjInp_ptr_ptr(boost::any param,
-						       irods::re_serialization::serialized_parameter_t &out) 
+						       rs::serialized_parameter_t &out) 
 {
     try {
 	openedDataObjInp_t **ptr = boost::any_cast<openedDataObjInp_t**>(param);
@@ -102,8 +107,8 @@ extern "C" {
 	
 	irods::api_entry *dummy_ptr = new irods::api_entry(dummy_api);
 
-	irods::re_serialization::add_operation(typeid(openedDataObjInp_t*), serialize_openedDataObjInp_ptr);
-	irods::re_serialization::add_operation(typeid(openedDataObjInp_t**), serialize_openedDataObjInp_ptr_ptr);
+	rs::add_operation(typeid(openedDataObjInp_t*), serialize_openedDataObjInp_ptr);
+	rs::add_operation(typeid(openedDataObjInp_t**), serialize_openedDataObjInp_ptr_ptr);
 
 	dummy_ptr->in_pack_key = "OpenedDataObjInp_PI";
         dummy_ptr->in_pack_value = OpenedDataObjInp_PI;

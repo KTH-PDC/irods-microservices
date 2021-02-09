@@ -1,6 +1,7 @@
 set(
   MICROSERVICES
   msiGetOpenDataObjPath
+  msiGetOpenDataObjL1Inx
   )
 
 set(

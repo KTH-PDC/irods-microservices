@@ -1,6 +1,6 @@
 set(
   MICROSERVICES
-  msitemplate
+  msiGetOpenDataObjPath
   )
 
 set(

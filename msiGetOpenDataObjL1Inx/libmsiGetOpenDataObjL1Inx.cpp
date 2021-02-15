@@ -34,7 +34,7 @@ int msiGetOpenDataObjL1Inx(msParam_t *in, msParam_t *out, ruleExecInfo_t *rei)
 	return (SYS_INVALID_INPUT_PARAM);
     
     const char *objPath = (const char*)in->inOutStruct;
-    int l1descInx = 0;
+    int l1descInx = -1;
     
     for (const l1desc_t &l1 : L1desc)
     {
@@ -46,7 +46,7 @@ int msiGetOpenDataObjL1Inx(msParam_t *in, msParam_t *out, ruleExecInfo_t *rei)
 	}
     }
 
-    // we send out the found index (or 0)
+    // we send out the found index (or -1)
     fillIntInMsParam(out, l1descInx);
     return (0);
 }

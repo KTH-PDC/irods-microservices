@@ -2,12 +2,7 @@
 // Author: Ilari Korhonen, KTH Royal Institute of Technology
 
 // std C++ headers
-#include <string>
 #include <cstring>
-#include <iostream>
-#include <vector>
-#include <functional>
-#include <exception>
 
 // iRODS headers
 #include "apiHeaderAll.h"
@@ -26,21 +21,19 @@ extern l1desc_t L1desc[NUM_L1_DESC];
 // microservice entry point
 int msiGetOpenDataObjPath(msParam_t *in, msParam_t *out, ruleExecInfo_t *rei)
 {
+    int l1descInx = 0;
+
     // we need an input param
     if (!in)
 	return (SYS_INVALID_INPUT_PARAM);
     
-    // and it needs to be a keyvalpair 
-    if (strcmp(in->type, KeyValPair_MS_T))
+    // and it needs to be a positive integer
+    if (strcmp(in->type, INT_MS_T) || (l1descInx = parseMspForPosInt(in)) < 0)
 	return (SYS_INVALID_INPUT_PARAM);
-    
-    char *val = getValByKey((keyValPair_t*)in->inOutStruct, "l1descInx");
 
-    if (val == nullptr)
-        return UNMATCHED_KEY_OR_INDEX;
-
-    try {
-	int l1descInx = std::stoi(val);
+    // proceed, if sanity
+    if (l1descInx < NUM_L1_DESC - 1)
+    {
 	l1desc_t *descPtr = L1desc + l1descInx;
 
 	// for a valid descriptor there is an object path
@@ -51,12 +44,11 @@ int msiGetOpenDataObjPath(msParam_t *in, msParam_t *out, ruleExecInfo_t *rei)
 	}
 
 	else
-	    return (SYS_INTERNAL_NULL_INPUT_ERR);
+	    return (SYS_API_INPUT_ERR);
     }
-    catch (std::exception &e)
-    {
-	return (SYS_UNKNOWN_ERROR);
-    }
+
+    else
+	return (SYS_INVALID_INPUT_PARAM);
 
     return (0);
 }

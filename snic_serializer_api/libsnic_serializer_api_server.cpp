@@ -13,6 +13,8 @@
 // iRODS type openedDataObjInp_t
 #include "dataObjInpOut.h"
 
+// iRODS type bytesBuf_t
+#include "rodsDef.h"
 
 // we only do the server-side stuff
 #ifdef RODS_SERVER
@@ -24,7 +26,7 @@
 namespace rs = irods::re_serialization;
 
 
-// serializer callback for a pointer
+// serializer callback for an openedDataObjInp_t pointer
 static irods::error serialize_openedDataObjInp_ptr(boost::any param,
 						   rs::serialized_parameter_t &out)
 {
@@ -54,7 +56,7 @@ static irods::error serialize_openedDataObjInp_ptr(boost::any param,
     return (SUCCESS());
 }
 
-// serializer callback for a handle
+// serializer callback for a double pointer of openedDataObjInp_t
 static irods::error serialize_openedDataObjInp_ptr_ptr(boost::any param,
 						       rs::serialized_parameter_t &out) 
 {
@@ -74,6 +76,31 @@ static irods::error serialize_openedDataObjInp_ptr_ptr(boost::any param,
 
     return (SUCCESS());
 }
+
+// serializer callback for a pointer of bytesBuf_t
+static irods::error serialize_bytesBuf_ptr(boost::any param,
+                                           rs::serialized_parameter_t &out)
+{
+    try {
+        bytesBuf_t *ptr = boost::any_cast<bytesBuf_t*>(param);
+
+	// for a valid ptr, we serialize the length and content
+        if (ptr)
+	{
+            out["len"] = std::to_string(ptr->len);
+            out["buf"] = std::string((char*)ptr->buf);
+        }
+        else {
+            out["null_value"] = "null_value";
+        }
+    }
+    catch (std::exception &e) {
+	return (ERROR(INVALID_ANY_CAST, "failed to cast bytesBuf_t pointer"));
+    }
+
+    return SUCCESS();
+}
+
 
 // dummy API endpoint implementation
 int rs_snic_serializer_dummy(rsComm_t *comm, openedDataObjInp_t *in_param, int *out)
@@ -109,6 +136,8 @@ extern "C" {
 
 	rs::add_operation(typeid(openedDataObjInp_t*), serialize_openedDataObjInp_ptr);
 	rs::add_operation(typeid(openedDataObjInp_t**), serialize_openedDataObjInp_ptr_ptr);
+
+        rs::add_operation(typeid(bytesBuf_t*), serialize_bytesBuf_ptr);
 
 	dummy_ptr->in_pack_key = "OpenedDataObjInp_PI";
         dummy_ptr->in_pack_value = OpenedDataObjInp_PI;

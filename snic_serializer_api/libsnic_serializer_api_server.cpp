@@ -50,7 +50,7 @@ static irods::error serialize_openedDataObjInp_ptr(boost::any param,
             out["null_value"] = "null_value";
     }
     catch (std::exception &e) {
-        return ERROR(INVALID_ANY_CAST, "failed to cast openedDataObjInp_t pointer");
+        return ERROR(INVALID_ANY_CAST, "failed to cast openedDataObjInp_t ptr");
     }
 
     return (SUCCESS());
@@ -71,7 +71,7 @@ static irods::error serialize_openedDataObjInp_ptr_ptr(boost::any param,
 	    out["null_value"] = "null_value";
     }
     catch (std::exception &e) {
-	return (ERROR(INVALID_ANY_CAST, "failed to cast openedDataObjInp_t handle"));
+	return (ERROR(INVALID_ANY_CAST, "failed to cast openedDataObjInp_t ptr ptr"));
     }
 
     return (SUCCESS());
@@ -95,7 +95,7 @@ static irods::error serialize_bytesBuf_ptr(boost::any param,
         }
     }
     catch (std::exception &e) {
-	return (ERROR(INVALID_ANY_CAST, "failed to cast bytesBuf_t pointer"));
+	return (ERROR(INVALID_ANY_CAST, "failed to cast bytesBuf_t ptr"));
     }
 
     return SUCCESS();

@@ -85,10 +85,9 @@ static irods::error serialize_bytesBuf_ptr(boost::any param,
         bytesBuf_t *ptr = boost::any_cast<bytesBuf_t*>(param);
 
 	// for a valid ptr, we serialize the length and content
-        if (ptr)
-	{
+        if (ptr) {
             out["len"] = std::to_string(ptr->len);
-            out["buf"] = std::string((char*)ptr->buf);
+            out["buf"] = std::string((const char*)ptr->buf, ptr->len);
         }
         else {
             out["null_value"] = "null_value";

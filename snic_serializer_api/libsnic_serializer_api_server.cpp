@@ -10,6 +10,9 @@
 #include "irods_server_api_call.hpp"
 #include "irods_re_serialization.hpp"
 
+// fmt headers
+#include "fmt/format.h"
+
 // iRODS type openedDataObjInp_t
 #include "dataObjInpOut.h"
 
@@ -84,10 +87,22 @@ static irods::error serialize_bytesBuf_ptr(boost::any param,
     try {
         bytesBuf_t *ptr = boost::any_cast<bytesBuf_t*>(param);
 
-	// for a valid ptr, we serialize the length and content
+	// we serialize the length and content (nonprintable escaped)
         if (ptr) {
             out["len"] = std::to_string(ptr->len);
-            out["buf"] = std::string((const char*)ptr->buf, ptr->len);
+            std::string &str = out["buf"];
+
+            for (int i = 0; i < ptr->len; i++)
+            {
+                unsigned char c = *((unsigned char*)(ptr->buf) + i);
+
+                if (isprint(c) || isspace(c) || isblank(c)) {
+                    str += c;
+                }
+                else {
+                    str += fmt::format("\\x{0:02x}", c);
+                }
+            }
         }
         else {
             out["null_value"] = "null_value";

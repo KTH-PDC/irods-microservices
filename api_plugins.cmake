@@ -37,6 +37,7 @@ foreach(PLUGIN ${IRODS_API_PLUGINS})
     ${IRODS_EXTERNALS_FULLPATH_BOOST}/include
     ${IRODS_EXTERNALS_FULLPATH_JSON}/include
     ${IRODS_EXTERNALS_FULLPATH_ARCHIVE}/include
+    ${IRODS_EXTERNALS_FULLPATH_FMT}/include
     )
 
   target_link_libraries(
@@ -46,6 +47,7 @@ foreach(PLUGIN ${IRODS_API_PLUGINS})
     ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_filesystem.so
     ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_system.so
     ${IRODS_EXTERNALS_FULLPATH_ARCHIVE}/lib/libarchive.so
+    ${IRODS_EXTERNALS_FULLPATH_FMT}/lib/libfmt.so
     ${OPENSSL_CRYPTO_LIBRARY}
     )
 

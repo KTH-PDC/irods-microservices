@@ -39,11 +39,8 @@ int msiGetOpenDataObjL1Inx(msParam_t *in, msParam_t *out, ruleExecInfo_t *rei)
     for (const l1desc_t &l1 : L1desc)
     {
 	// for a valid descriptor, if the path matches...
-	if (l1.inuseFlag == FD_INUSE)
-	{
-	    if (!strcmp(l1.dataObjInp->objPath, objPath))
+	if (l1.inuseFlag == FD_INUSE && !strcmp(l1.dataObjInp->objPath, objPath))
 		l1descInx = &l1 - L1desc;
-	}
     }
 
     // return error if nothing found

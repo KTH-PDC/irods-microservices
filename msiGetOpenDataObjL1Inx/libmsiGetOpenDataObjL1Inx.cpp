@@ -46,7 +46,11 @@ int msiGetOpenDataObjL1Inx(msParam_t *in, msParam_t *out, ruleExecInfo_t *rei)
 	}
     }
 
-    // we send out the found index (or -1)
+    // return error if nothing found
+    if (l1descInx == -1)
+        return (SYS_API_INPUT_ERR);
+
+    // success, we send out the found index
     fillIntInMsParam(out, l1descInx);
     return (0);
 }

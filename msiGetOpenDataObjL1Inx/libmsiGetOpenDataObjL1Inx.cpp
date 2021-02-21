@@ -25,11 +25,11 @@ extern l1desc_t L1desc[NUM_L1_DESC];
 // microservice entry point
 int msiGetOpenDataObjL1Inx(msParam_t *in, msParam_t *out, ruleExecInfo_t *rei)
 {
-    // we take one param in
-    if (!in)
-	return (SYS_INVALID_INPUT_PARAM);
+    // sanity checks
+    if (!in || !out)
+	return (SYS_INTERNAL_ERR);
 
-    // and it needs to be a string
+    // input needs to be a string
     if (strcmp(in->type, STR_MS_T))
 	return (SYS_INVALID_INPUT_PARAM);
     

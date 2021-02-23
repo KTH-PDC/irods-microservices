@@ -23,10 +23,10 @@ int msiGetOpenDataObjPath(msParam_t *in, msParam_t *out, ruleExecInfo_t *rei)
 {
     int l1descInx = 0;
 
-    // we need an input param
-    if (!in)
-	return (SYS_INVALID_INPUT_PARAM);
-    
+    // check sanity
+    if (!in || !out)
+	return (SYS_INTERNAL_ERR);
+
     // and it needs to be a positive integer
     if (strcmp(in->type, INT_MS_T) || (l1descInx = parseMspForPosInt(in)) < 0)
 	return (SYS_INVALID_INPUT_PARAM);

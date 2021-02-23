@@ -38,7 +38,7 @@ int msiGetOpenDataObjPath(msParam_t *in, msParam_t *out, ruleExecInfo_t *rei)
 
 	// for a valid descriptor there is an object path
 	if (descPtr->inuseFlag == FD_INUSE)
-	    fillStrInMsParam(out, (const char*)in->inOutStruct);
+            fillStrInMsParam(out, (const char*)descPtr->dataObjInp->objPath);
 
 	else
 	    return (SYS_API_INPUT_ERR);

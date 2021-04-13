@@ -6,42 +6,42 @@
 
 pep_api_data_obj_put_post(*INSTANCE_NAME, *COMM, *DATAOBJINP, *BUFFER, *PORTAL_OPR_OUT)
 {
-	auditLog("api_data_obj_put_post", *DATAOBJINP);
+        auditLog("api_data_obj_put_post", *DATAOBJINP);
 
-	*objPath = *DATAOBJINP.obj_path
-	doASyncChksumAndRepl(*objPath);
+        *objPath = *DATAOBJINP.obj_path
+        doASyncChksumAndRepl(*objPath);
 }
 
 
 pep_api_data_obj_get_post(*INSTANCE_NAME, *COMM, *DATAOBJINP, *BUFFER, *PORTAL_OPR_OUT)
 {
-	auditLog("api_data_obj_get_post", *DATAOBJINP);
+        auditLog("api_data_obj_get_post", *DATAOBJINP);
 }
 
 
 pep_api_data_obj_create_post(*INSTANCE_NAME, *COMM, *DATAOBJINP)
 {
-	auditLog("api_data_obj_create_post", *DATAOBJINP);
+        auditLog("api_data_obj_create_post", *DATAOBJINP);
 
-	*objPath = *DATAOBJINP.obj_path;
-	msiGetOpenDataObjL1Inx(*objPath, *l1descInx);
+        *objPath = *DATAOBJINP.obj_path;
+        msiGetOpenDataObjL1Inx(*objPath, *l1descInx);
 
-	msiAddKeyVal(temporaryStorage, str(*l1descInx), *objPath);
+        msiAddKeyVal(temporaryStorage, str(*l1descInx), *objPath);
 }
 
 
 pep_api_data_obj_open_post(*INSTANCE_NAME, *COMM, *DATAOBJINP)
 {
-	auditLog("api_data_obj_open_post", *DATAOBJINP);
+        auditLog("api_data_obj_open_post", *DATAOBJINP);
 
-	*objPath = *DATAOBJINP.obj_path;
-	*openFlags = *DATAOBJINP.open_flags;
+        *objPath = *DATAOBJINP.obj_path;
+        *openFlags = *DATAOBJINP.open_flags;
 
-	if (int(*openFlags) != 0)
-	{
-		msiGetOpenDataObjL1Inx(*objPath, *l1descInx);
-		msiAddKeyVal(temporaryStorage, str(*l1descInx), *objPath);
-	}
+        if (int(*openFlags) != 0)
+        {
+                msiGetOpenDataObjL1Inx(*objPath, *l1descInx);
+                msiAddKeyVal(temporaryStorage, str(*l1descInx), *objPath);
+        }
 }
 
 
